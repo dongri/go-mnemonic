@@ -12,4 +12,13 @@ func main() {
 
 	seed := mnemonic.ToSeedHex(words, "")
 	fmt.Println(seed)
+
+	words, _ = mnemonic.GenerateMnemonic(128, mnemonic.LanguageEnglish)
+	fmt.Println(words)
+
+	words, _ = mnemonic.GenerateMnemonic(128, mnemonic.LanguageKorean)
+	fmt.Println(words)
+
+	words, _ = mnemonic.GenerateMnemonic(128, mnemonic.LanguageChineseSimplified)
+	fmt.Println(words)
 }
