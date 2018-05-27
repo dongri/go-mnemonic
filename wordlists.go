@@ -14,7 +14,7 @@ type Language string
 // Language const
 const (
 	LanguageEnglish            Language = "english"
-	LanguageFrench             Language = "frech"
+	LanguageFrench             Language = "french"
 	LanguageItalian            Language = "italian"
 	LanguageJapanese           Language = "japanese"
 	LanguageKorean             Language = "korean"
