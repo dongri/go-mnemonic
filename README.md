@@ -30,3 +30,8 @@ func main() {
     fmt.Println(words)
 }
 ```
+
+### statik
+```
+$ statik -src=./txt -dest=./
+```
