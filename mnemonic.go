@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -15,8 +16,12 @@ import (
 
 // const ...
 const (
-	InvalidStrength = "Invalid Strength"
+	InvalidStrength = "Invalid strength"
 	InvalidEntropy  = "Invalid entropy"
+)
+
+var (
+	chunksRe = regexp.MustCompile(".{1,11}")
 )
 
 // GenerateMnemonic ...
@@ -60,15 +65,7 @@ func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 	entropyBits := bytesToBinary(entropy)
 	checksumBits := deriveChecksumBits(entropy)
 	bits := entropyBits + checksumBits
-	chunks := []string{}
-	str := ""
-	for i, s := range strings.Split(bits, "") {
-		str += s
-		if i%11 == 0 {
-			chunks = append(chunks, str)
-			str = ""
-		}
-	}
+	chunks := chunksRe.FindAllString(bits, -1)
 	words := []string{}
 	for _, binary := range chunks {
 		i, err := binaryToByte(binary)
