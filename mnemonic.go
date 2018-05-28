@@ -73,7 +73,7 @@ func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 		if err != nil {
 			return words, err
 		}
-		words = append(words, norm.NFC.String(wordlist[i]))
+		words = append(words, norm.NFKC.String(wordlist[i]))
 	}
 	return words, nil
 }
