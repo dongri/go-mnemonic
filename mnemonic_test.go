@@ -4,6 +4,8 @@ import (
 	"encoding/hex"
 	"strings"
 	"testing"
+
+	"golang.org/x/text/unicode/norm"
 )
 
 type Vector struct {
@@ -27,6 +29,10 @@ func TestMnemonicEnglish(t *testing.T) {
 		if vector.mnemonic != actual {
 			t.Error(vector.mnemonic + "!=" + actual)
 		}
+		seed := ToSeedHex(actual, "TREZOR")
+		if vector.seed != seed {
+			t.Error(vector.seed + "!=" + seed)
+		}
 	}
 }
 func TestMnemonicJapanese(t *testing.T) {
@@ -40,9 +46,18 @@ func TestMnemonicJapanese(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		actual := strings.Join(mnemonic, "\u3000")
+
+		mnemonicArray := []string{}
+		for _, word := range mnemonic {
+			mnemonicArray = append(mnemonicArray, norm.NFKC.String(word))
+		}
+		actual := strings.Join(mnemonicArray, "\u3000")
 		if vector.mnemonic != actual {
 			t.Error(vector.mnemonic + "!=" + actual)
+		}
+		seed := ToSeedHex(vector.mnemonic, "TREZOR")
+		if vector.seed != seed {
+			t.Error(vector.seed + "!=" + seed)
 		}
 	}
 }
@@ -177,144 +192,144 @@ func japaneseVectors() []Vector {
 		Vector{
 			entropy:  "00000000000000000000000000000000",
 			mnemonic: "あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あおぞら",
-			seed:     "a262d6fb6122ecf45be09c50492b31f92e9beb7d9a845987a02cefda57a15f9c467a17872029a9e92299b5cbdf306e3a0ee620245cbd508959b6cb7ca637bd55",
+			seed:     "5a6c23b5abdd5c3e1f7d77ad25ecd715647bdafb44dab324c730a76a45d7421daccee1a4ff0739715a2c56a8a9f1e527a5e3496224d91293bfcd9b5393bfff83",
 		},
 		Vector{
 			entropy:  "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
 			mnemonic: "そつう　れきだい　ほんやく　わかす　りくつ　ばいか　ろせん　やちん　そつう　れきだい　ほんやく　わかめ",
-			seed:     "aee025cbe6ca256862f889e48110a6a382365142f7d16f2b9545285b3af64e542143a577e9c144e101a6bdca18f8d97ec3366ebf5b088b1c1af9bc31346e60d9",
+			seed:     "9d269b22155b3c915b09abfefd4e1104573c528f6977cde89c6a68152c3c714dc6c7e0e62f221c322f3f76e4d0bcca66c06e3d2f6a8d70d612c87dd6dee63976",
 		},
 
 		Vector{
 			entropy:  "80808080808080808080808080808080",
 			mnemonic: "そとづら　あまど　おおう　あこがれる　いくぶん　けいけん　あたえる　いよく　そとづら　あまど　おおう　あかちゃん",
-			seed:     "e51736736ebdf77eda23fa17e31475fa1d9509c78f1deb6b4aacfbd760a7e2ad769c714352c95143b5c1241985bcb407df36d64e75dd5a2b78ca5d2ba82a3544",
+			seed:     "17914bd3fe4b9e1224c968ec6b967fc6144a5795adbb2636a17f77da9b6b118200ad788672fd06096ca62683940523f5178f6ce3845c967cbd4ad2b3643cc660",
 		},
 
 		Vector{
 			entropy:  "ffffffffffffffffffffffffffffffff",
 			mnemonic: "われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　ろんぶん",
-			seed:     "4cd2ef49b479af5e1efbbd1e0bdc117f6a29b1010211df4f78e2ed40082865793e57949236c43b9fe591ec70e5bb4298b8b71dc4b267bb96ed4ed282c8f7761c",
+			seed:     "4bd21b75de4f262b0771a97d6fc877ee19329236ced6e974c4c81a094a5f896758033f7eae270216d727539eee3bc9ba5cad21132a1c6e41a50820e0ac928e83",
 		},
 
 		Vector{
 			entropy:  "000000000000000000000000000000000000000000000000",
 			mnemonic: "あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あらいぐま",
-			seed:     "d99e8f1ce2d4288d30b9c815ae981edd923c01aa4ffdc5dee1ab5fe0d4a3e13966023324d119105aff266dac32e5cd11431eeca23bbd7202ff423f30d6776d69",
+			seed:     "a59401a14bb821cce86ec32add8f273a3e07e9c8b1ed430d5d1a06dbf3c083ff2ffb4bb26a384b8faecb58f6cb4c07cfbf2c91108385f6773f2fefd1581926b5",
 		},
 
 		Vector{
 			entropy:  "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
 			mnemonic: "そつう　れきだい　ほんやく　わかす　りくつ　ばいか　ろせん　やちん　そつう　れきだい　ほんやく　わかす　りくつ　ばいか　ろせん　やちん　そつう　れいぎ",
-			seed:     "eaaf171efa5de4838c758a93d6c86d2677d4ccda4a064a7136344e975f91fe61340ec8a615464b461d67baaf12b62ab5e742f944c7bd4ab6c341fbafba435716",
+			seed:     "809861f80877e3adc842b0204e401d5aeac1d16d24072f387107f9cf95b639d0a76141ab25d3dc90752472787307a7d8b1a534bea237c2bb348faac973e17488",
 		},
 
 		Vector{
 			entropy:  "808080808080808080808080808080808080808080808080",
 			mnemonic: "そとづら　あまど　おおう　あこがれる　いくぶん　けいけん　あたえる　いよく　そとづら　あまど　おおう　あこがれる　いくぶん　けいけん　あたえる　いよく　そとづら　いきなり",
-			seed:     "aec0f8d3167a10683374c222e6e632f2940c0826587ea0a73ac5d0493b6a632590179a6538287641a9fc9df8e6f24e01bf1be548e1f74fd7407ccd72ecebe425",
+			seed:     "01187da93480d0369fff3fc5331284ad6a60cd3ce1f60dbec60899191afa2a2b807cd030038a93ddaf14d4f75d6de4a0e049ee58c92197eb9ca995770b558486",
 		},
 
 		Vector{
 			entropy:  "ffffffffffffffffffffffffffffffffffffffffffffffff",
 			mnemonic: "われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　りんご",
-			seed:     "f0f738128a65b8d1854d68de50ed97ac1831fc3a978c569e415bbcb431a6a671d4377e3b56abd518daa861676c4da75a19ccb41e00c37d086941e471a4374b95",
+			seed:     "a1385ef66f20a905bbfc70f8be6ecfec341ff76d208e89e1a400ccea34313c99e93f4fba9c6f0729397b9002972af93179dc9dd8af7704fa3d28e656248274dc",
 		},
 
 		Vector{
 			entropy:  "0000000000000000000000000000000000000000000000000000000000000000",
 			mnemonic: "あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　あいこくしん　いってい",
-			seed:     "23f500eec4a563bf90cfda87b3e590b211b959985c555d17e88f46f7183590cd5793458b094a4dccc8f05807ec7bd2d19ce269e20568936a751f6f1ec7c14ddd",
+			seed:     "c91afc204a8b098524c5e2134bf4955b9a9ddd5d4bb78c2184bb4378a306e851b60f3e4032fc910ecb48acfb9e441dd3ceaaab9e14700b11396b94e27e8ac2da",
 		},
 
 		Vector{
 			entropy:  "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
 			mnemonic: "そつう　れきだい　ほんやく　わかす　りくつ　ばいか　ろせん　やちん　そつう　れきだい　ほんやく　わかす　りくつ　ばいか　ろせん　やちん　そつう　れきだい　ほんやく　わかす　りくつ　ばいか　ろせん　まんきつ",
-			seed:     "cd354a40aa2e241e8f306b3b752781b70dfd1c69190e510bc1297a9c5738e833bcdc179e81707d57263fb7564466f73d30bf979725ff783fb3eb4baa86560b05",
+			seed:     "79aff5bc7868b9054f6c35bb3fa286c72a6931d5999c6c45a029ad31da550b71c8db72e594875e1d61788371b31a03b70fe1d9484840d403e56a1a2783bf9d7e",
 		},
 
 		Vector{
 			entropy:  "8080808080808080808080808080808080808080808080808080808080808080",
 			mnemonic: "そとづら　あまど　おおう　あこがれる　いくぶん　けいけん　あたえる　いよく　そとづら　あまど　おおう　あこがれる　いくぶん　けいけん　あたえる　いよく　そとづら　あまど　おおう　あこがれる　いくぶん　けいけん　あたえる　うめる",
-			seed:     "6b7cd1b2cdfeeef8615077cadd6a0625f417f287652991c80206dbd82db17bf317d5c50a80bd9edd836b39daa1b6973359944c46d3fcc0129198dc7dc5cd0e68",
+			seed:     "0f46c02350b3f1227c3566dea2ff0f2caf716495a95725b320a31a3058d5d62596fdb816be75909d2c5f7094beb171dc504ea8ea60f5e2e40bd8aa0d9339aab0",
 		},
 
 		Vector{
 			entropy:  "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
 			mnemonic: "われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　われる　らいう",
-			seed:     "a44ba7054ac2f9226929d56505a51e13acdaa8a9097923ca07ea465c4c7e294c038f3f4e7e4b373726ba0057191aced6e48ac8d183f3a11569c426f0de414623",
+			seed:     "a0705c2feebefb61509dcc49c57586c35379c1981c688fc1d452da44443d9a651a374f1ad2ee3d7847b50655cf9241d7e607be436c0df7c8bac42f2a82985a79",
 		},
 
 		Vector{
 			entropy:  "77c2b00716cec7213839159e404db50d",
 			mnemonic: "せまい　うちがわ　あずき　かろう　めずらしい　だんち　ますく　おさめる　ていぼう　あたる　すあな　えしゃく",
-			seed:     "344cef9efc37d0cb36d89def03d09144dd51167923487eec42c487f7428908546fa31a3c26b7391a2b3afe7db81b9f8c5007336b58e269ea0bd10749a87e0193",
+			seed:     "b7f5478674839a3487a271014f066059490161a381ec57e9a00de0a3c7311ab51f20b53989c7bcbc923f956b5a16556bc6a4c143265e280769f12792d0e0913e",
 		},
 
 		Vector{
 			entropy:  "b63a9c59a6e641f288ebc103017f1da9f8290b3da6bdef7b",
 			mnemonic: "ぬすむ　ふっかつ　うどん　こうりつ　しつじ　りょうり　おたがい　せもたれ　あつめる　いちりゅう　はんしゃ　ごますり　そんけい　たいちょう　らしんばん　ぶんせき　やすみ　ほいく",
-			seed:     "b14e7d35904cb8569af0d6a016cee7066335a21c1c67891b01b83033cadb3e8a034a726e3909139ecd8b2eb9e9b05245684558f329b38480e262c1d6bc20ecc4",
+			seed:     "a5fe510d0485f7d74dec53fbc1aeb7bf3d527075dcc5ef657e0b3a8ff613554228099faa1cc9332f9a1dde264cefa6493f70ca3828c514781e78dd7c5e39877d",
 		},
 
 		Vector{
 			entropy:  "3e141609b97933b66a060dcddc71fad1d91677db872031e85f4c015c5e7e8982",
 			mnemonic: "くのう　てぬぐい　そんかい　すろっと　ちきゅう　ほあん　とさか　はくしゅ　ひびく　みえる　そざい　てんすう　たんぴん　くしょう　すいようび　みけん　きさらぎ　げざん　ふくざつ　あつかう　はやい　くろう　おやゆび　こすう",
-			seed:     "32e78dce2aff5db25aa7a4a32b493b5d10b4089923f3320c8b287a77e512455443298351beb3f7eb2390c4662a2e566eec5217e1a37467af43b46668d515e41b",
+			seed:     "3ca539f28db49e01d56b8dca1b513131dcd57833e961caabad88b7bbf2347ce5ece844c025bc88bd7a90fe4069a5ce2115f5571da9021af64e782539267fc687",
 		},
 
 		Vector{
 			entropy:  "0460ef47585604c5660618db2e6a7e7f",
 			mnemonic: "あみもの　いきおい　ふいうち　にげる　ざんしょ　じかん　ついか　はたん　ほあん　すんぽう　てちがい　わかめ",
-			seed:     "0acf902cd391e30f3f5cb0605d72a4c849342f62bd6a360298c7013d714d7e58ddf9c7fdf141d0949f17a2c9c37ced1d8cb2edabab97c4199b142c829850154b",
+			seed:     "1bd33e347a219ff2ff2dbacc0c6149a97d09e20f7dd4951552e1516eb865710387dc011c22b256270661094ff9bfb080b939eb6dd1cb8705afabe0f38cf3b74d",
 		},
 
 		Vector{
 			entropy:  "72f60ebac5dd8add8d2a25a797102c3ce21bc029c200076f",
 			mnemonic: "すろっと　にくしみ　なやむ　たとえる　へいこう　すくう　きない　けってい　とくべつ　ねっしん　いたみ　せんせい　おくりがな　まかい　とくい　けあな　いきおい　そそぐ",
-			seed:     "9869e220bec09b6f0c0011f46e1f9032b269f096344028f5006a6e69ea5b0b8afabbb6944a23e11ebd021f182dd056d96e4e3657df241ca40babda532d364f73",
+			seed:     "37a76adf17a8330e495ea6e8b41cbb590ae7672a48bbcae709483b4a0b1b5104cacc5c5df6595a9de22c0116a33138233d15ede90c4fc7ba7cb97488d168c137",
 		},
 
 		Vector{
 			entropy:  "2c85efc7f24ee4573d2b81a6ec66cee209b2dcbd09d8eddc51e0215b0b68e416",
 			mnemonic: "かほご　きうい　ゆたか　みすえる　もらう　がっこう　よそう　ずっと　ときどき　したうけ　にんか　はっこう　つみき　すうじつ　よけい　くげん　もくてき　まわり　せめる　げざい　にげる　にんたい　たんそく　ほそく",
-			seed:     "713b7e70c9fbc18c831bfd1f03302422822c3727a93a5efb9659bec6ad8d6f2c1b5c8ed8b0b77775feaf606e9d1cc0a84ac416a85514ad59f5541ff5e0382481",
+			seed:     "ba369b6718743db50a501ca4bc452763b9230370e923063cd7be7fafaf537c7fadd677cfd2066f78c752f5d5830fb3794983b7e896d58722d559e26060b44309",
 		},
 
 		Vector{
 			entropy:  "eaebabb2383351fd31d703840b32e9e2",
 			mnemonic: "めいえん　さのう　めだつ　すてる　きぬごし　ろんぱ　はんこ　まける　たいおう　さかいし　ねんいり　はぶらし",
-			seed:     "06e1d5289a97bcc95cb4a6360719131a786aba057d8efd603a547bd254261c2a97fcd3e8a4e766d5416437e956b388336d36c7ad2dba4ee6796f0249b10ee961",
+			seed:     "065cfeac3b160a68307b6a4d5879b6c8f7ed6c9de396abb8bbd26f4dde61c4b45f5977187bd69a228cd521fd0d901a80df90df07a8115c3de05831e549b14b4a",
 		},
 
 		Vector{
 			entropy:  "7ac45cfe7722ee6c7ba84fbc2d5bd61b45cb2fe5eb65aa78",
 			mnemonic: "せんぱい　おしえる　ぐんかん　もらう　きあい　きぼう　やおや　いせえび　のいず　じゅしん　よゆう　きみつ　さといも　ちんもく　ちわわ　しんせいじ　とめる　はちみつ",
-			seed:     "1fef28785d08cbf41d7a20a3a6891043395779ed74503a5652760ee8c24dfe60972105ee71d5168071a35ab7b5bd2f8831f75488078a90f0926c8e9171b2bc4a",
+			seed:     "a3e06b761cd1ddde4f652856c495b53c67f84e23a545f0a97b79f94e84ebcab5999439124275e2e118cb03d34772f5b03bb2d3d048a532e019aa6e7121b39b9c",
 		},
 
 		Vector{
 			entropy:  "4fa1a8bc3e6d80ee1316050e862c1812031493212b7ec3f3bb1b08f168cabeef",
 			mnemonic: "こころ　いどう　きあつ　そうがんきょう　へいあん　せつりつ　ごうせい　はいち　いびき　きこく　あんい　おちつく　きこえる　けんとう　たいこ　すすめる　はっけん　ていど　はんおん　いんさつ　うなぎ　しねま　れいぼう　みつかる",
-			seed:     "43de99b502e152d4c198542624511db3007c8f8f126a30818e856b2d8a20400d29e7a7e3fdd21f909e23be5e3c8d9aee3a739b0b65041ff0b8637276703f65c2",
+			seed:     "37ed8facbb2fcad238893671e9e12fe25f612f1ec5c39c38f3c0b332d6e5b9fb38902dfc9b3e664029a13adab9e8a1ed5869ed9d0a5854974dd5f608676064b7",
 		},
 
 		Vector{
 			entropy:  "18ab19a9f54a9274f03e5209a2ac8a91",
 			mnemonic: "うりきれ　さいせい　じゆう　むろん　とどける　ぐうたら　はいれつ　ひけつ　いずれ　うちあわせ　おさめる　おたく",
-			seed:     "3d711f075ee44d8b535bb4561ad76d7d5350ea0b1f5d2eac054e869ff7963cdce9581097a477d697a2a9433a0c6884bea10a2193647677977c9820dd0921cbde",
+			seed:     "db0b8914d12023ea9c2ffacca9e98cde2afd22aa636811c1043ec5df842c8f8f71a5425b7c2d579d88e214f5c27f4a24b940666c6c8542b5b46414ad8e023930",
 		},
 
 		Vector{
 			entropy:  "18a2e1d81b8ecfb2a333adcb0c17a5b9eb76cc5d05db91a4",
 			mnemonic: "うりきれ　うねる　せっさたくま　きもち　めんきょ　へいたく　たまご　ぜっく　びじゅつかん　さんそ　むせる　せいじ　ねくたい　しはらい　せおう　ねんど　たんまつ　がいけん",
-			seed:     "753ec9e333e616e9471482b4b70a18d413241f1e335c65cd7996f32b66cf95546612c51dcf12ead6f805f9ee3d965846b894ae99b24204954be80810d292fcdd",
+			seed:     "6a6436f5a2353a9fc8f091d49bedc6f51ca23987dc32ea9798786a2d94191146f36604aecffd8494db8c5eac7e858e7e17e1e2eeae8b7dead483e02ea9c939a6",
 		},
 
 		Vector{
 			entropy:  "15da872c95a13dd738fbf50e427583ad61f18fd99f628c417a61cf8343c90419",
 			mnemonic: "うちゅう　ふそく　ひしょ　がちょう　うけもつ　めいそう　みかん　そざい　いばる　うけとる　さんま　さこつ　おうさま　ぱんつ　しひょう　めした　たはつ　いちぶ　つうじょう　てさぎょう　きつね　みすえる　いりぐち　かめれおん",
-			seed:     "346b7321d8c04f6f37b49fdf062a2fddc8e1bf8f1d33171b65074531ec546d1d3469974beccb1a09263440fc92e1042580a557fdce314e27ee4eabb25fa5e5fe",
+			seed:     "37ff351d26601c20cab59aed72ba7cdff4bd485fdb70fc2bb25c96d6815ce6c506468cc3fc4bd233cd67affa04bd759c29d61ac3e18db0a4301ef28ef230e792",
 		},
 	}
 }
