@@ -22,7 +22,7 @@ const (
 )
 
 var (
-	chunksRe = regexp.MustCompile(".{1,11}")
+	chunksRe = regexp.MustCompile("[01]{11}")
 )
 
 // GenerateMnemonic ...
@@ -48,7 +48,9 @@ func GenerateMnemonic(strength uint16, language Language) (string, error) {
 
 // ToSeedHex ...
 func ToSeedHex(mnemonic, password string) string {
-	seed := pbkdf2.Key([]byte(mnemonic), []byte("mnemonic"+password), 2048, 64, sha512.New)
+	normalizedMnemonic := norm.NFKD.String(mnemonic)
+	normalizedPassword := norm.NFKD.String(password)
+	seed := pbkdf2.Key([]byte(normalizedMnemonic), []byte("mnemonic"+normalizedPassword), 2048, 64, sha512.New)
 	return hex.EncodeToString(seed)
 }
 
@@ -73,7 +75,7 @@ func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 		if err != nil {
 			return words, err
 		}
-		words = append(words, norm.NFKC.String(wordlist[i]))
+		words = append(words, wordlist[i])
 	}
 	return words, nil
 }
