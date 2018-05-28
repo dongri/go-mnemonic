@@ -32,7 +32,7 @@ func TestMnemonic(t *testing.T) {
 func testVectors() []Vector {
 	return []Vector{
 		Vector{
-			entropy:  "000000000000000000000000000000001",
+			entropy:  "00000000000000000000000000000000",
 			mnemonic: "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
 			seed:     "c55257c360c07c72029aebc1b53c05ed0362ada38ead3e3e9efa3708e53495531f09a6987599d18264c1e1c92f2cf141630c7a3c4ab7c81b2f001698e7463b04",
 		},
