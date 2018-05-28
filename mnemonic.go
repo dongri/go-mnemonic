@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"golang.org/x/crypto/pbkdf2"
+	"golang.org/x/text/unicode/norm"
 )
 
 // const ...
@@ -72,7 +73,7 @@ func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 		if err != nil {
 			return words, err
 		}
-		words = append(words, wordlist[i])
+		words = append(words, norm.NFC.String(wordlist[i]))
 	}
 	return words, nil
 }
