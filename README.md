@@ -14,24 +14,22 @@ import (
 func main() {
     words, _ := mnemonic.GenerateMnemonic(128, mnemonic.LanguageJapanese)
     fmt.Println(words)
-    // あいさつ　ひつじゅひん　うろこ　すふれ　てきとう　こさめ　くどく　こくさい　ようす　くげん　むさぼる　ひさん
+    // さべつ　うけつけ　いほう　ぜんぶ　うやまう　はっきり　せっけん　にうけ　いだい　のっく　ときおり　ちそう
 
     seed := mnemonic.ToSeedHex(words, "password")
     fmt.Println(seed)
-    // bdd000956333c5abd39be64128159add10a200dee6e68d207c8bf31275cbac8cebc2c55704080c8973d862d6424c5d9298b9da3d9d7beb4f6b333ff2a6ab729c
+    // 9e745d0d134f30f9caa420d71be96578e246b6f1d9a03df2c1d72c6ef432b53edd31eeb318ba0f95cedd6d261dba7f20abe6f71aaa4514f2ab8c6192d17ce12c
 
     words, _ = mnemonic.GenerateMnemonic(128, mnemonic.LanguageEnglish)
     fmt.Println(words)
+    // adult cloud wink ecology neglect route mom message table matter rapid crime
 
     words, _ = mnemonic.GenerateMnemonic(128, mnemonic.LanguageKorean)
     fmt.Println(words)
+    // 소질 업종 총장 통화 이동 아픔 방식 일본 냄비 무용 그림 메일
 
     words, _ = mnemonic.GenerateMnemonic(128, mnemonic.LanguageChineseSimplified)
     fmt.Println(words)
+    // 央 壮 楚 套 颗 烯 初 饼 挺 道 贸 竟
 }
-```
-
-### statik
-```
-$ statik -src=./txt -dest=./
 ```

@@ -1,4 +1,11 @@
-﻿abaisser
+﻿package wordlists
+
+import "strings"
+
+// WordlistFrench ...
+var WordlistFrench = strings.Split(wordlistFrench, "\n")
+
+const wordlistFrench = `abaisser
 abandon
 abdiquer
 abeille
@@ -2045,4 +2052,4 @@ yacht
 zèbre
 zénith
 zeste
-zoologie
+zoologie`

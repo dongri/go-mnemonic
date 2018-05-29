@@ -1,4 +1,11 @@
-ábaco
+package wordlists
+
+import "strings"
+
+// WordlistSpanish ...
+var WordlistSpanish = strings.Split(wordlistSpanish, "\n")
+
+const wordlistSpanish = `ábaco
 abdomen
 abeja
 abierto
@@ -2045,4 +2052,4 @@ zarza
 zona
 zorro
 zumo
-zurdo
+zurdo`

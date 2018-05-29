@@ -71,7 +71,7 @@ func entropyToMnemonic(entropy []byte, wordlist []string) ([]string, error) {
 	chunks := chunksRe.FindAllString(bits, -1)
 	words := []string{}
 	for _, binary := range chunks {
-		i, err := binaryToByte(binary)
+		i, err := binaryToInt(binary)
 		if err != nil {
 			return words, err
 		}
@@ -97,6 +97,6 @@ func bytesToBinary(bytes []byte) string {
 	return bits
 }
 
-func binaryToByte(bin string) (int64, error) {
+func binaryToInt(bin string) (int64, error) {
 	return strconv.ParseInt(bin, 2, 16)
 }

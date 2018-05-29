@@ -1,11 +1,7 @@
 package mnemonic
 
 import (
-	"bufio"
-	"fmt"
-
-	_ "github.com/dongri/go-mnemonic/statik" // statik dir
-	"github.com/rakyll/statik/fs"
+	"github.com/dongri/go-mnemonic/wordlists"
 )
 
 // Language ...
@@ -25,20 +21,26 @@ const (
 
 // GetWordList ...
 func GetWordList(language Language) ([]string, error) {
-	var wordlist []string
-	filename := fmt.Sprintf("/%s.txt", language)
-	FS, err := fs.New()
-	if err != nil {
-		return wordlist, err
-	}
-	file, err := FS.Open(filename)
-	if err != nil {
-		return wordlist, err
-	}
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		wordlist = append(wordlist, scanner.Text())
+	var wordlist = []string{}
+	switch language {
+	case LanguageEnglish:
+		wordlist = wordlists.WordlistEnglish
+	case LanguageFrench:
+		wordlist = wordlists.WordlistFrench
+	case LanguageItalian:
+		wordlist = wordlists.WordlistItalian
+	case LanguageJapanese:
+		wordlist = wordlists.WordlistJapanese
+	case LanguageKorean:
+		wordlist = wordlists.WordlistKorean
+	case LanguageSpanish:
+		wordlist = wordlists.WordlistSpanish
+	case LanguageChineseSimplified:
+		wordlist = wordlists.WordlistChineseSimplified
+	case LanguageChineseTraditional:
+		wordlist = wordlists.WordlistChineseTraditional
+	default:
+		wordlist = wordlists.WordlistEnglish
 	}
 	return wordlist, nil
 }

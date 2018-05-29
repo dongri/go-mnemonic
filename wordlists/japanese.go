@@ -1,4 +1,11 @@
-あいこくしん
+package wordlists
+
+import "strings"
+
+// WordlistJapanese ...
+var WordlistJapanese = strings.Split(wordlistJapanese, "\n")
+
+const wordlistJapanese = `あいこくしん
 あいさつ
 あいだ
 あおぞら
@@ -2045,4 +2052,4 @@
 わじまし
 わすれもの
 わらう
-われる
+われる`

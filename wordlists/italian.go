@@ -1,4 +1,11 @@
-abaco
+package wordlists
+
+import "strings"
+
+// WordlistItalian ...
+var WordlistItalian = strings.Split(wordlistItalian, "\n")
+
+const wordlistItalian = `abaco
 abbaglio
 abbinato
 abete
@@ -2045,4 +2052,4 @@ zotico
 zucchero
 zufolo
 zulu
-zuppa
+zuppa`

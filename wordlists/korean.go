@@ -1,4 +1,11 @@
-가격
+package wordlists
+
+import "strings"
+
+// WordlistKorean ...
+var WordlistKorean = strings.Split(wordlistKorean, "\n")
+
+const wordlistKorean = `가격
 가끔
 가난
 가능
@@ -2045,4 +2052,4 @@
 희망
 희생
 흰색
-힘껏
+힘껏`

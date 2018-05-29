@@ -1,4 +1,11 @@
-abandon
+package wordlists
+
+import "strings"
+
+// WordlistEnglish ...
+var WordlistEnglish = strings.Split(wordlistEnglish, "\n")
+
+const wordlistEnglish = `abandon
 ability
 able
 about
@@ -2045,4 +2052,4 @@ youth
 zebra
 zero
 zone
-zoo
+zoo`
